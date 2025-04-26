@@ -1,7 +1,9 @@
 {
-  "name": "xiaoyuouxi1.0",
+  "name": "cheese-chompers-3d",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "A hilarious physics-based game where wobbly rats battle for cheese",
+  "author": "bengtai1997",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
