@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Block access to specific folders
+Disallow: /private/
+Disallow: /admin/
+
+# Allow search engines to access sitemap
+Sitemap: https://cheesechompers3d.pro/sitemap.xml

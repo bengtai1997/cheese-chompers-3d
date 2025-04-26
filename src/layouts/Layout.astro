@@ -1,22 +1,446 @@
+---
+interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	image?: string;
+}
+
+const {
+	title = "Cheese Chompers 3D - Play Free Online Rat Battle Game",
+	description = "Play Cheese Chompers 3D, a hilarious physics-based knockout game where you control wobbly rats in chaotic battles. Watch gameplay videos, learn strategies, and play free online with no download required!",
+	keywords = "Cheese Chompers 3D, rat game, physics game, knockout game, free online game, 3D game, browser game, no download, wobbly rats, cheese game, gameplay videos, game tutorial, game strategies",
+	image = "/images/cheese-chompers-3d-social.jpg"
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="/cheese_chompers_icon.png?v=1.2" />
+		<link rel="icon" type="image/png" sizes="512x512" href="/cheese_chompers_icon.png?v=1.2" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/cheese_chompers_icon.png?v=1.2" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/cheese_chompers_icon.png?v=1.2" />
+		<link rel="manifest" href="/site.webmanifest?v=1.2" />
+		<meta name="theme-color" content="#1A1A2E" />
+
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+
+		<!-- Canonical URL -->
+		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site || 'https://cheesechompers3d.pro').href} />
+
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={new URL(image, Astro.url)} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+		<!-- Schema.org structured data -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "VideoGame",
+				"name": "Cheese Chompers 3D",
+				"description": "A hilarious physics-based knockout game where you control wobbly rats in chaotic battles.",
+				"genre": ["Action", "Casual", "Physics"],
+				"gamePlatform": "Web Browser",
+				"applicationCategory": "Game",
+				"operatingSystem": "Any",
+				"offers": {
+					"@type": "Offer",
+					"price": "0",
+					"priceCurrency": "USD",
+					"availability": "https://schema.org/InStock"
+				},
+				"video": [
+					{
+						"@type": "VideoObject",
+						"name": "Cheese Chompers 3D Gameplay Tutorial",
+						"description": "Learn how to play Cheese Chompers 3D with this gameplay tutorial video",
+						"thumbnailUrl": "https://img.youtube.com/vi/zU0L5ueGA3o/maxresdefault.jpg",
+						"uploadDate": "2023-10-15",
+						"contentUrl": "https://www.youtube.com/watch?v=zU0L5ueGA3o",
+						"embedUrl": "https://www.youtube.com/embed/zU0L5ueGA3o"
+					},
+					{
+						"@type": "VideoObject",
+						"name": "Cheese Chompers 3D Advanced Strategies",
+						"description": "Master advanced strategies for Cheese Chompers 3D to dominate the cheese arena",
+						"thumbnailUrl": "https://img.youtube.com/vi/iHI5bbRA8sE/maxresdefault.jpg",
+						"uploadDate": "2023-11-20",
+						"contentUrl": "https://www.youtube.com/watch?v=iHI5bbRA8sE",
+						"embedUrl": "https://www.youtube.com/embed/iHI5bbRA8sE"
+					}
+				]
+			}
+		</script>
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<slot />
+
+		<!-- Core Web Vitals Monitoring -->
+		<script>
+			// Web Vitals monitoring
+			document.addEventListener('DOMContentLoaded', () => {
+				// Only in production and only for real users
+				if (navigator.sendBeacon && location.hostname !== 'localhost') {
+					// Load web-vitals library
+					const script = document.createElement('script');
+					script.src = 'https://unpkg.com/web-vitals/dist/web-vitals.iife.js';
+					script.async = true;
+
+					script.onload = () => {
+						// When the library loads, start monitoring CWV
+						webVitals.onCLS(sendToAnalytics);
+						webVitals.onFID(sendToAnalytics);
+						webVitals.onLCP(sendToAnalytics);
+						webVitals.onINP(sendToAnalytics);
+						webVitals.onFCP(sendToAnalytics);
+						webVitals.onTTFB(sendToAnalytics);
+					};
+
+					document.head.appendChild(script);
+
+					// Function to send metrics to your analytics
+					function sendToAnalytics({name, delta, id}) {
+						// Here you would normally send this data to your analytics service
+						// This is a placeholder that logs to console in development
+						console.log(`Web Vitals: ${name}`, {delta, id});
+
+						// Example of sending to a custom endpoint
+						if (navigator.sendBeacon) {
+							const url = 'https://cheesechompers3d.pro/api/vitals';
+							const body = JSON.stringify({name, delta, id, page: location.pathname});
+							navigator.sendBeacon(url, body);
+						}
+					}
+				}
+			});
+		</script>
 	</body>
 </html>
 
-<style>
+<style is:global>
+	:root {
+		/* 更现代化的游戏风格配色 */
+		--color-primary: #FF5722; /* 更鲜艳的橙色 */
+		--color-secondary: #FFD600; /* 更明亮的黄色 */
+		--color-accent: #4CAF50; /* 更鲜艳的绿色 */
+		--color-tertiary: #8C52FF; /* 添加紫色作为第三色 */
+		--color-quaternary: #00BCD4; /* 添加青色作为第四色 */
+
+		/* 背景和文本颜色 */
+		--color-background: #1A1A2E; /* 深蓝色背景，更游戏化 */
+		--color-background-light: #2A2A40; /* 稍微亮一点的背景色，用于卡片 */
+		--color-text: #E9E9E9; /* 浅色文本，在深色背景上 */
+		--color-text-light: #B0B0B0; /* 次要文本颜色 */
+		--color-white: #FFFFFF;
+		--color-black: #000000;
+
+		/* 设计系统变量 */
+		--border-radius: 12px; /* 更大的圆角 */
+		--border-radius-lg: 20px; /* 大圆角，用于主要元素 */
+		--border-radius-sm: 6px; /* 小圆角，用于按钮等 */
+		--box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25); /* 更深的阴影 */
+		--box-shadow-hover: 0 12px 28px rgba(0, 0, 0, 0.3); /* 悬停时的阴影 */
+		--neon-glow: 0 0 10px rgba(255, 87, 34, 0.7), 0 0 20px rgba(255, 87, 34, 0.5); /* 霓虹灯效果 */
+		--neon-glow-accent: 0 0 10px rgba(76, 175, 80, 0.7), 0 0 20px rgba(76, 175, 80, 0.5);
+
+		/* 动画时间 */
+		--transition-fast: 0.2s;
+		--transition-medium: 0.3s;
+		--transition-slow: 0.5s;
+
+		/* 间距系统 */
+		--space-xs: 0.25rem;
+		--space-sm: 0.5rem;
+		--space-md: 1rem;
+		--space-lg: 2rem;
+		--space-xl: 4rem;
+	}
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	@keyframes gradientBG {
+		0% { background-position: 0% 50%; }
+		50% { background-position: 100% 50%; }
+		100% { background-position: 0% 50%; }
+	}
+
+	@keyframes float {
+		0% { transform: translateY(0px); }
+		50% { transform: translateY(-10px); }
+		100% { transform: translateY(0px); }
+	}
+
+	@keyframes pulse {
+		0% { transform: scale(1); }
+		50% { transform: scale(1.05); }
+		100% { transform: scale(1); }
+	}
+
+	@keyframes glow {
+		0% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.5); }
+		50% { box-shadow: 0 0 20px rgba(255, 87, 34, 0.8); }
+		100% { box-shadow: 0 0 5px rgba(255, 87, 34, 0.5); }
+	}
+
+	html {
+		scroll-behavior: smooth;
+	}
+
 	html,
 	body {
 		margin: 0;
 		width: 100%;
+		min-height: 100%;
+		font-family: 'Poppins', sans-serif;
+		background-color: var(--color-background);
+		color: var(--color-text);
+		line-height: 1.6;
+		overflow-x: hidden;
+		background-image:
+			radial-gradient(circle at 10% 20%, rgba(140, 82, 255, 0.1) 0%, transparent 20%),
+			radial-gradient(circle at 90% 80%, rgba(255, 87, 34, 0.1) 0%, transparent 20%),
+			radial-gradient(circle at 50% 50%, rgba(0, 188, 212, 0.05) 0%, transparent 50%);
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+		border-radius: var(--border-radius-sm);
+	}
+
+	a {
+		color: var(--color-secondary);
+		text-decoration: none;
+		transition: all var(--transition-medium) ease;
+		position: relative;
+		font-weight: 500;
+	}
+
+	a:hover {
+		color: var(--color-primary);
+		text-shadow: var(--neon-glow);
+	}
+
+	h1, h2, h3, h4, h5, h6 {
+		margin-bottom: 1rem;
+		line-height: 1.2;
+		font-weight: 700;
+	}
+
+	h1 {
+		font-size: 3.5rem;
+		background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color: transparent;
+		margin-bottom: 1.5rem;
+	}
+
+	h2 {
+		font-size: 2.5rem;
+		position: relative;
+		display: inline-block;
+		margin-bottom: 2rem;
+	}
+
+	h2::after {
+		content: '';
+		position: absolute;
+		bottom: -10px;
+		left: 0;
+		width: 60px;
+		height: 4px;
+		background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+		border-radius: 2px;
+	}
+
+	p {
+		margin-bottom: 1rem;
+		font-size: 1.1rem;
+	}
+
+	.container {
+		width: 100%;
+		max-width: 1300px;
+		margin: 0 auto;
+		padding: 0 var(--space-md);
+		position: relative;
+		z-index: 1;
+	}
+
+	.btn {
+		display: inline-block;
+		padding: 0.85rem 2rem;
+		background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+		color: var(--color-white);
+		border: none;
+		border-radius: var(--border-radius-sm);
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--transition-medium) ease;
+		position: relative;
+		overflow: hidden;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		box-shadow: var(--box-shadow);
+		z-index: 1;
+	}
+
+	.btn::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -100%;
+		width: 100%;
 		height: 100%;
+		background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+		transition: all var(--transition-medium) ease;
+		z-index: -1;
+	}
+
+	.btn:hover {
+		transform: translateY(-3px);
+		box-shadow: var(--box-shadow-hover);
+		color: var(--color-white);
+	}
+
+	.btn:hover::before {
+		left: 0;
+	}
+
+	.btn-secondary {
+		background: transparent;
+		border: 2px solid var(--color-primary);
+		color: var(--color-primary);
+	}
+
+	.btn-secondary:hover {
+		background-color: var(--color-primary);
+		color: var(--color-white);
+	}
+
+	.section {
+		padding: 6rem 0;
+		position: relative;
+	}
+
+	.section-header {
+		text-align: center;
+		margin-bottom: 4rem;
+	}
+
+	.section-header p {
+		max-width: 700px;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 1.2rem;
+	}
+
+	.card {
+		background-color: var(--color-background-light);
+		border-radius: var(--border-radius);
+		padding: 2rem;
+		box-shadow: var(--box-shadow);
+		transition: transform var(--transition-medium) ease, box-shadow var(--transition-medium) ease;
+	}
+
+	.card:hover {
+		transform: translateY(-10px);
+		box-shadow: var(--box-shadow-hover);
+	}
+
+	.highlight {
+		color: var(--color-primary);
+		font-weight: 700;
+	}
+
+	.text-gradient {
+		background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+		text-fill-color: transparent;
+	}
+
+	.floating {
+		animation: float 3s ease-in-out infinite;
+	}
+
+	.pulsing {
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	.glowing {
+		animation: glow 2s ease-in-out infinite;
+	}
+
+	@media (max-width: 992px) {
+		h1 {
+			font-size: 3rem;
+		}
+
+		h2 {
+			font-size: 2.2rem;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.section {
+			padding: 4rem 0;
+		}
+
+		h1 {
+			font-size: 2.5rem;
+		}
+
+		h2 {
+			font-size: 2rem;
+		}
+	}
+
+	@media (max-width: 576px) {
+		h1 {
+			font-size: 2rem;
+		}
+
+		h2 {
+			font-size: 1.8rem;
+		}
+
+		.btn {
+			padding: 0.75rem 1.5rem;
+			font-size: 0.9rem;
+		}
 	}
 </style>

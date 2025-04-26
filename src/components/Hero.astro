@@ -1,0 +1,351 @@
+---
+import Game from './Game.astro';
+---
+
+<section id="game" class="hero">
+  <div class="hero-particles"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span>New Release</span>
+        </div>
+        <h1 class="hero-title">Cheese Chompers <span class="text-gradient">3D</span></h1>
+        <p class="hero-description">
+          Jump into this <span class="highlight">wild physics-based</span> knockout game where you control wobbly rats battling for cheese glory! Push rivals off the arena, perform speed-boosting flips, and become the last rat standing!
+        </p>
+        <div class="hero-features">
+          <div class="hero-feature">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>Free to Play</span>
+          </div>
+          <div class="hero-feature">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>No Download</span>
+          </div>
+          <div class="hero-feature">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            <span>Multiplayer</span>
+          </div>
+        </div>
+        <div class="hero-buttons">
+          <a href="#game" class="btn btn-play">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            Play Now
+          </a>
+          <a href="#how-to-play" class="btn btn-secondary">How to Play</a>
+        </div>
+      </div>
+
+      <div class="hero-game">
+        <div class="game-wrapper">
+          <Game />
+          <div class="game-decoration game-decoration-1"></div>
+          <div class="game-decoration game-decoration-2"></div>
+          <div class="game-decoration game-decoration-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding: 2rem 0;
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213E 100%);
+    color: var(--color-white);
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(255, 87, 34, 0.15) 0%, transparent 20%),
+      radial-gradient(circle at 80% 20%, rgba(255, 214, 0, 0.1) 0%, transparent 20%),
+      radial-gradient(circle at 40% 80%, rgba(140, 82, 255, 0.1) 0%, transparent 20%),
+      radial-gradient(circle at 70% 50%, rgba(76, 175, 80, 0.05) 0%, transparent 30%);
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(90deg, rgba(26, 26, 46, 0.8) 0%, rgba(26, 26, 46, 0.4) 100%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    z-index: 0;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-text {
+    padding: 2rem 0;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-tertiary));
+    padding: 0.5rem 1.5rem;
+    border-radius: 50px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--box-shadow);
+    transform: rotate(-2deg);
+    animation: pulse 2s infinite;
+  }
+
+  .hero-badge span {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .hero-title {
+    font-size: 3.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+    text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    line-height: 1.5;
+    color: var(--color-text-light);
+  }
+
+  .hero-features {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-light);
+  }
+
+  .hero-feature svg {
+    color: var(--color-secondary);
+    width: 20px;
+    height: 20px;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .btn-play {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    box-shadow: 0 0 20px rgba(255, 87, 34, 0.5);
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translateZ(0);
+    transition: all var(--transition-medium) ease;
+  }
+
+  .btn-play:hover {
+    transform: perspective(1000px) translateZ(10px);
+    box-shadow: 0 0 30px rgba(255, 87, 34, 0.7);
+  }
+
+  .btn-play svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--color-white);
+    padding: 1rem 2rem;
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--color-white);
+  }
+
+  .hero-game {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .game-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: perspective(1000px) rotateY(-5deg);
+    transition: transform var(--transition-medium) ease;
+  }
+
+  .game-wrapper:hover {
+    transform: perspective(1000px) rotateY(0);
+  }
+
+  .game-decoration {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.6;
+    z-index: -1;
+  }
+
+  .game-decoration-1 {
+    width: 200px;
+    height: 200px;
+    background-color: var(--color-primary);
+    top: -50px;
+    right: -50px;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .game-decoration-2 {
+    width: 150px;
+    height: 150px;
+    background-color: var(--color-tertiary);
+    bottom: -30px;
+    left: -30px;
+    animation: float 8s ease-in-out infinite reverse;
+  }
+
+  .game-decoration-3 {
+    width: 100px;
+    height: 100px;
+    background-color: var(--color-secondary);
+    bottom: 50%;
+    right: -20px;
+    animation: float 7s ease-in-out infinite 1s;
+  }
+
+  @media (max-width: 1200px) {
+    .hero-title {
+      font-size: 3.5rem;
+    }
+  }
+
+  @media (max-width: 992px) {
+    .hero {
+      padding: 6rem 0 4rem;
+    }
+
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .hero-text {
+      text-align: center;
+      padding: 0;
+    }
+
+    .hero-description {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-features {
+      justify-content: center;
+    }
+
+    .hero-buttons {
+      justify-content: center;
+    }
+
+    .hero-game {
+      order: -1;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .game-wrapper {
+      transform: perspective(1000px) rotateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero {
+      padding: 5rem 0 3rem;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+    }
+
+    .hero-description {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+    }
+
+    .hero-features {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-buttons {
+      flex-direction: column;
+      gap: 1rem;
+      width: 100%;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+    .btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    .btn-play {
+      justify-content: center;
+    }
+  }
+</style>

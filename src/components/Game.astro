@@ -1,0 +1,501 @@
+---
+// Game component for embedding the game iframe
+---
+
+<div class="game-container">
+  <div class="game-loading" id="game-loading">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <p class="loading-text">Loading your cheese adventure...</p>
+      <div class="loading-progress">
+        <div class="loading-bar" id="loading-bar"></div>
+      </div>
+      <p class="loading-tip">Tip: Use WASD to move and SPACE to jump!</p>
+    </div>
+  </div>
+
+  <iframe
+    id="game-iframe"
+    src="about:blank"
+    data-game-src="https://cheesechompers3d.io/full/cheese-chompers-3d"
+    title="Play Cheese Chompers 3D"
+    allowfullscreen
+    scrolling="no"
+    frameborder="0"
+    allow="autoplay; fullscreen; microphone"
+    sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin allow-scripts allow-top-navigation"
+  ></iframe>
+
+  <div class="game-controls">
+    <button id="mute-btn" class="control-btn" aria-label="Toggle Sound">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="sound-on">
+        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="sound-off" style="display: none;">
+        <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+      </svg>
+    </button>
+    <button id="fullscreen-btn" class="control-btn" aria-label="Fullscreen">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M5 5h5v2H7v3H5V5m9 0h5v5h-2V7h-3V5m3 9h2v5h-5v-2h3v-3m-7 3v2H5v-5h2v3h3z"/>
+      </svg>
+    </button>
+    <button id="refresh-btn" class="control-btn" aria-label="Refresh">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="game-overlay" id="game-overlay">
+    <div class="game-message">
+      <h3>Ready to Play?</h3>
+      <p>Click to start your cheesy adventure!</p>
+      <button id="start-game-btn" class="btn">Start Game</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .game-container {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* 4:3 aspect ratio */
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 87, 34, 0.3);
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .game-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+    color: var(--color-white);
+    z-index: 3;
+    transition: opacity 0.5s ease;
+  }
+
+  .loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 80%;
+    text-align: center;
+  }
+
+  .loading-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 1.5rem 0;
+    color: var(--color-white);
+  }
+
+  .loading-tip {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--color-secondary);
+  }
+
+  .loading-progress {
+    width: 80%;
+    max-width: 300px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0.5rem 0;
+  }
+
+  .loading-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    border-radius: 3px;
+    transition: width 0.3s ease;
+  }
+
+  .spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-primary);
+    border-left-color: var(--color-secondary);
+    animation: spin 1.5s ease-in-out infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .game-controls {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    gap: 0.75rem;
+    z-index: 2;
+  }
+
+  .control-btn {
+    background-color: rgba(26, 26, 46, 0.7);
+    color: var(--color-white);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-medium) ease;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .control-btn:hover {
+    background-color: var(--color-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .game-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(26, 26, 46, 0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-medium) ease;
+  }
+
+  .game-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .game-message {
+    background-color: var(--color-background-light);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid rgba(255, 87, 34, 0.3);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all var(--transition-medium) ease;
+  }
+
+  .game-overlay.active .game-message {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .game-message h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--color-white);
+  }
+
+  .game-message p {
+    margin-bottom: 1.5rem;
+    color: var(--color-text-light);
+  }
+
+  .game-message .btn {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+  }
+
+  @media (max-width: 992px) {
+    .game-container {
+      padding-bottom: 75%; /* Maintain 4:3 aspect ratio */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .game-container {
+      padding-bottom: 75%; /* Maintain 4:3 aspect ratio even on mobile */
+    }
+
+    .loading-text {
+      font-size: 1rem;
+    }
+
+    .control-btn {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .game-container {
+      padding-bottom: 100%; /* 1:1 aspect ratio on small mobile */
+    }
+
+    .game-controls {
+      bottom: 10px;
+      right: 10px;
+    }
+  }
+</style>
+
+<script>
+  // 全局错误处理，抑制来自iframe的错误
+  window.addEventListener('error', function(event) {
+    // 检查错误是否包含"setting 'onclick'"
+    if (event.message && event.message.includes("setting 'onclick'")) {
+      // 阻止默认错误处理
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    }
+  }, true);
+
+  // 确保DOM已完全加载
+  document.addEventListener('DOMContentLoaded', () => {
+    // Game elements
+    const gameIframe = document.getElementById('game-iframe');
+    const gameLoading = document.getElementById('game-loading');
+    const loadingBar = document.getElementById('loading-bar');
+    const gameOverlay = document.getElementById('game-overlay');
+    const startGameBtn = document.getElementById('start-game-btn');
+
+    // Control buttons
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const muteBtn = document.getElementById('mute-btn');
+    const soundOnIcon = muteBtn ? muteBtn.querySelector('.sound-on') : null;
+    const soundOffIcon = muteBtn ? muteBtn.querySelector('.sound-off') : null;
+
+    // Game loading simulation
+    if (gameIframe && gameLoading && loadingBar) {
+      let progress = 0;
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress > 100) progress = 100;
+
+        loadingBar.style.width = `${progress}%`;
+
+        if (progress === 100) {
+          clearInterval(loadingInterval);
+
+          // Hide loading screen after the iframe has loaded
+          setTimeout(() => {
+            gameLoading.style.opacity = '0';
+            setTimeout(() => {
+              gameLoading.style.display = 'none';
+
+              // Show game overlay with start button
+              if (gameOverlay) {
+                gameOverlay.classList.add('active');
+              }
+            }, 500);
+          }, 800);
+        }
+      }, 300);
+
+      // Also listen for actual iframe load event as backup
+      gameIframe.addEventListener('load', () => {
+        if (progress < 100) {
+          progress = 100;
+          loadingBar.style.width = '100%';
+          clearInterval(loadingInterval);
+
+          setTimeout(() => {
+            gameLoading.style.opacity = '0';
+            setTimeout(() => {
+              gameLoading.style.display = 'none';
+
+              // Show game overlay with start button
+              if (gameOverlay) {
+                gameOverlay.classList.add('active');
+              }
+            }, 500);
+          }, 800);
+        }
+      });
+    }
+
+    // Start game button functionality
+    if (startGameBtn && gameOverlay) {
+      startGameBtn.addEventListener('click', () => {
+        gameOverlay.classList.remove('active');
+
+        // 加载游戏内容
+        if (gameIframe) {
+          try {
+            // 从data-game-src属性获取游戏URL
+            const gameSrc = gameIframe.getAttribute('data-game-src');
+            if (gameSrc) {
+              gameIframe.src = gameSrc;
+            }
+          } catch (e) {
+            console.log('无法加载游戏内容');
+          }
+
+          // Focus the iframe for better gameplay experience
+          gameIframe.focus();
+        }
+      });
+    }
+
+    // Fullscreen button functionality
+    if (fullscreenBtn && gameIframe) {
+      fullscreenBtn.addEventListener('click', () => {
+        if (gameIframe.requestFullscreen) {
+          gameIframe.requestFullscreen();
+        } else if (gameIframe.mozRequestFullScreen) {
+          gameIframe.mozRequestFullScreen();
+        } else if (gameIframe.webkitRequestFullscreen) {
+          gameIframe.webkitRequestFullscreen();
+        } else if (gameIframe.msRequestFullscreen) {
+          gameIframe.msRequestFullscreen();
+        }
+      });
+    }
+
+    // Refresh button functionality
+    if (refreshBtn && gameIframe) {
+      refreshBtn.addEventListener('click', () => {
+        if (gameLoading) {
+          gameLoading.style.display = 'flex';
+          gameLoading.style.opacity = '1';
+
+          // Reset loading bar
+          if (loadingBar) {
+            loadingBar.style.width = '0%';
+
+            // Restart loading simulation
+            let progress = 0;
+            const loadingInterval = setInterval(() => {
+              progress += Math.random() * 10;
+              if (progress > 100) progress = 100;
+
+              loadingBar.style.width = `${progress}%`;
+
+              if (progress === 100) {
+                clearInterval(loadingInterval);
+
+                setTimeout(() => {
+                  gameLoading.style.opacity = '0';
+                  setTimeout(() => {
+                    gameLoading.style.display = 'none';
+
+                    // Show game overlay with start button
+                    if (gameOverlay) {
+                      gameOverlay.classList.add('active');
+                    }
+                  }, 500);
+                }, 800);
+              }
+            }, 300);
+          }
+        }
+
+        // Reload the iframe
+        try {
+          // 从data-game-src属性获取游戏URL
+          const gameSrc = gameIframe.getAttribute('data-game-src');
+          if (gameSrc) {
+            gameIframe.src = gameSrc;
+          }
+        } catch (e) {
+          console.log('无法重新加载游戏内容');
+        }
+      });
+    }
+
+    // Mute button functionality
+    if (muteBtn && soundOnIcon && soundOffIcon) {
+      let isMuted = false;
+
+      muteBtn.addEventListener('click', () => {
+        isMuted = !isMuted;
+
+        if (isMuted) {
+          soundOnIcon.style.display = 'none';
+          soundOffIcon.style.display = 'block';
+
+          // Here you would actually mute the game
+          // This is a placeholder as we don't have direct access to the game's audio
+          try {
+            if (gameIframe && gameIframe.contentWindow) {
+              // Attempt to communicate with the iframe to mute audio
+              // This may not work due to cross-origin restrictions
+              gameIframe.contentWindow.postMessage('mute', '*');
+            }
+          } catch (e) {
+            console.log('Could not mute game audio');
+          }
+        } else {
+          soundOnIcon.style.display = 'block';
+          soundOffIcon.style.display = 'none';
+
+          // Here you would unmute the game
+          try {
+            if (gameIframe && gameIframe.contentWindow) {
+              gameIframe.contentWindow.postMessage('unmute', '*');
+            }
+          } catch (e) {
+            console.log('Could not unmute game audio');
+          }
+        }
+      });
+    }
+
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+      // F key for fullscreen
+      if (e.key === 'f' && fullscreenBtn) {
+        fullscreenBtn.click();
+      }
+
+      // M key for mute toggle
+      if (e.key === 'm' && muteBtn) {
+        muteBtn.click();
+      }
+
+      // R key for refresh
+      if (e.key === 'r' && e.ctrlKey && refreshBtn) {
+        e.preventDefault();
+        refreshBtn.click();
+      }
+    });
+  });
+</script>
